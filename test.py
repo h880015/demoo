@@ -194,7 +194,11 @@ def decryptBook(bookId):
 	outputDecryptedEpubFile(bookId, "output")
 	
 #check platform
-if sys.platform != 'darwin':
+if sys.platform.startswith('win'):
+	dbPath = os.path.join( os.getenv( "LOCALAPPDATA" ), "Readmoo", "Local Storage", "app_readmoo_0.localstorage" )
+elif sys.platform.startswith('darwin'):
+	dbPath = homePath + "/Library/Application Support/Readmoo/Local Storage/" + "app_readmoo_0.localstorage"
+else:
 	print 'not support for ', sys.platform, ". return."
 	sys.exit()
 
@@ -232,7 +236,7 @@ else:
 	#print books list
 	for index in range(0, len(allBooksId)):
 		bookId = allBooksId[index]
-		print '    #', index, currentBooksInLibrary[bookId], '(', bookId, ')' 
+		print '    #', index, currentBooksInLibrary[bookId].encode( "utf-8" ), '(', bookId.encode( "utf-8" ), ')' 
 	print ''
 
 	inputNumber = -1
